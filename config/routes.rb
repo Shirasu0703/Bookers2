@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'homes#top'
   
-  resources :post_image, only: [:new, :create, :index, :show, :destroy]
+  resources :books, only: [:new, :create, :index, :show, :destroy]
 
-  get "homes/abouy" => "homes#about", as: "about"
+  get "homes/about" => "homes#about", as: "about"
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

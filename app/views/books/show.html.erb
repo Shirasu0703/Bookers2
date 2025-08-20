@@ -5,6 +5,6 @@
   <p><%= image_tag 'sample-author1.jpg' %></p>
   <p><%= @book.user.name %></p>
   <%if @book.user == current_user %>
-    <%= link_to "destroy", post_image_path(@book), method: :delete %>
+    <%= link_to "destroy", books_path(@book), method: :delete %>
   <% end %>
 </div>

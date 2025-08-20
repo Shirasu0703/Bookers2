@@ -3,6 +3,5 @@ class HomesController < ApplicationController
   end
 
   def about
-    root_to: "homes#about"
   end
 end
