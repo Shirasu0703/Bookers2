@@ -4,4 +4,7 @@
   <p>Body<%= @book.body %></p>
   <p><%= image_tag 'sample-author1.jpg' %></p>
   <p><%= @book.user.name %></p>
+  <%if @book.user == current_user %>
+    <%= link_to "destroy", post_image_path(@book), method: :delete %>
+  <% end %>
 </div>
