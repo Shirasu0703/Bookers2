@@ -1,2 +1,16 @@
-<h1>Homes#top</h1>
-<p>Find me in app/views/homes/top.html.erb</p>
+
+
+<div class="container text-center mt-5">
+  <h1 class="mb-4">Welcome to Bookers!!</h1>
+
+  <p class="mb-4">In Bookers,</p>
+  <p class="mb-4">you can share and exchange your opinions, impressions, and emotions</p>
+  <p class="mb-4">about various books!</p>
+
+  <div class="btn-container">
+    <%= link_to "Log in", user_session_path, class: "btn btn-primary btn-lg" %>
+    <%= link_to "Sign up", user_registration_path, class: "btn btn-success btn-lg" %>
+  </div>
+</div>
+
+

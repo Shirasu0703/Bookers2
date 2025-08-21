@@ -56,3 +56,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+
+gem 'kaminari','~> 1.2.1'
+
+gem 'bootstrap', '~> 5.3.2'
+
