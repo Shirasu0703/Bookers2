@@ -11,7 +11,26 @@
   </head>
 
   <body>
-    <header>
+
+  <header class="bg-secondary">
+  <div class="container-fluid">
+    <div class="row">
+    <div class="col-10">
+
+    <nav class="navvar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navvar-brand" href="/">Bookers</a>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" area-label="Toggle navigation">
+      <span class="navvar-toggler-icon"></span>
+    </button>
+
+    </nav>
+    </div>
+    </div>
+    </div>
+
+
       <% if user_signed_in? %>
         <li>
           <%= link_to '投稿フォーム', new_book_path %>
@@ -20,7 +39,7 @@
           <%= link_to 'マイページ', user_path(current_user.id) %>
         </li>
         <li>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: "本当にログアウトしますか？" } %>
         </li>
       <% else %>
         <li>
@@ -31,6 +50,27 @@
         </li>
       <% end %>
     </header>
+
+    <main class="mt-3 bg-white">
+      <div class="container-fluid">
+        <div class="row align-items-stretch">
+
+        <div class="col-2">
+          <div class="bg-success-subtle p-3 h-100"></div>
+        </div>
+
+        <footer class="mt-3 bg-info">
+        <div class="container-fluid py-3">
+          <div class="row row-cols-2 g-2 align-items-stretch" >
+    
+            <div class="col"><div class="p-3 bg-info-subtle" style="min-height:60px;"></div></div>
+            </div>
+          </div>
+      </footer>
+      </body>
+    </html>
+
+
     <%= yield %>
   </body>
 </html>
