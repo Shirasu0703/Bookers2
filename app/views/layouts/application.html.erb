@@ -5,48 +5,43 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/630024ec13.js" crossorigin="anonymous"></script>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-
-  <header class="bg-secondary">
-  <div class="container-fluid">
-    <div class="row">
-    <div class="col-10">
-
-    <nav class="navvar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navvar-brand" href="/">Bookers</a>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" area-label="Toggle navigation">
-      <span class="navvar-toggler-icon"></span>
-    </button>
-
-    </nav>
-    </div>
-    </div>
-    </div>
-
+  
+  <body class="d-flex flex-column vh-100">
+    <header class="shadow-sm">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand p-4" href="/"><%= image_tag('logo.png') %></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
 
       <% if user_signed_in? %>
+      <li class="nav-item">
         <li>
-          <%= link_to '投稿フォーム', new_book_path %>
+          <%= link_to '投稿フォーム', new_book_path, class: 'nav-link text-white' %>
         </li>
         <li>
-          <%= link_to 'マイページ', user_path(current_user.id) %>
+          <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-white' %>
         </li>
         <li>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: "本当にログアウトしますか？" } %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-white' %>
         </li>
       <% else %>
         <li>
-          <%= link_to "新規登録", new_user_registration_path %>
+          <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-white' %>
         </li>
         <li>
-          <%= link_to "ログイン", new_user_session_path %>
+          <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-white' %>
         </li>
       <% end %>
     </header>
