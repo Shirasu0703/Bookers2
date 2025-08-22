@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Bookers2</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -14,89 +13,72 @@
 
   
   <body class="d-flex flex-column vh-100">
+
     <header class="shadow-sm bg-dark">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <a class="navbar-brand p-4" href="/"><%= link_to 'Bookers', root_path, class: 'nav-link text-white' %></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-
-      <% if user_signed_in? %>
-      <li class="nav-item">
-        <li>
-          <%= link_to 'Home', user_path(current_user.id), class: 'nav-link text-white' %>
-        </li>
-
-        <li>
-          <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'nav-link text-white' %>
-        </li>
-      <% else %>
-      <li>
-        <%= link_to "Home", root_path, class: 'nav-link text-white' %>
-      </li>
-      <li>
-        <%= link_to "About", about_path, class: 'nav-link text-white' %>
-      </li>
-        <li>
-          <%= link_to "Sign up", new_user_registration_path, class: 'nav-link text-white' %>
-        </li>
-        <li>
-          <%= link_to "Log in", new_user_session_path, class: 'nav-link text-white' %>
-        </li>
-      <% end %>
+              <% if user_signed_in? %>
+                <li class="nav-item">
+                  <%= link_to 'Home', user_path(current_user.id), class: 'nav-link text-white' %></li>
+                <li><%= link_to "Users", book_path(:id), class: 'nav-link text-white' %></li>
+                <li><%= link_to "Books", books_path, class: 'nav-link text-white' %></li> 
+                <li><%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'nav-link text-white' %></li>
+              <% else %>
+              <li class="nav-item">
+                <li class="nav-item"><%= link_to "Home", root_path, class: 'nav-link text-white' %></li>
+                <li class="nav-item"><%= link_to "About", about_path, class: 'nav-link text-white' %></li>
+                <li class="nav-item"><%= link_to "Sign up", new_user_registration_path, class: 'nav-link text-white' %></li>
+                <li class="nav-item"><%= link_to "Log in", new_user_session_path, class: 'nav-link text-white' %></li>
+              <% end %>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <div class="container-fluid">
-    <div class="row">
+      <div class="row">
 
-      <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-        <div class="position-sticky pt-3">
-          <ul class="nav flex-column">
-          <% if user_signed_in? %>
-            <li class="nav-item">
-              <%= link_to 'User info', user_path(current_user.id), class: 'nav-link' %>
-            </li>
+        <% if user_signed_in? && !(controller_name == 'homes, edit' && action_name == 'top, edit') %>
+
+          <aside class="col-md-3 col-lg-2">
+            <%= render 'layouts/sidebar_form' %>
+          </aside>
+
+
+          <main class="col-md-8 offset-md-1 col-lg-9 px-md-4">
+          <% flash.each do |message_type, message| %>
+            <div class="flash-message <%= message_type %>"><%= message %></div>
           <% end %>
-            <li class="nav-item">
-            <%= form_with model: @book do |f| %>
-              <%= f.file_field :image, accept: "image/*", class: "w-100" %>
-              <div class="input-group mb-3 mt-4">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" aria-hidden="true"><i class="fas fa-building"></i></span>
-                </div>
-                <%= f.text_field :title, class: "form-control", placeholder: "Title" %>
-              </div>
-              <%= f.text_area :body, class: "form-control", rows: "3", placeholder: "Opinion" %>
-              <hr>
-              <%= f.submit 'Create Book', class: "btn btn-lg btn-block btn-info mt-4" %>
-            <% end %>
-            </li>
-          </ul>
-        </div>
-      </nav>
+          <%= yield %>
+        </main>
+      <% else %>
+        <main class="col-12 px-md-4">
+        <% flash.each do |message_type, message| %>
+          <div class="flash-message <%= message_type %>"><%= message %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+    <% end %>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <%= yield %>
-    </main>
+      </div>
+    </div>
+
     <footer class="mt-5 py-3">
-    <div class="container text-center">
+      <div class="container text-center">
         <p class="mb-0 ">CopyRight Infratop.inc</p>
-        </div>
-            </div>
-            </div>
-
-
-            </div>
-            </div>
-
-          </div>
-      </footer>
-      </body>
-    </html>
+      </div>
+    </footer>
 
   </body>
 </html>
+

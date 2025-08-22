@@ -1,11 +1,21 @@
-<div>
-  <%= image_tag @book.get_image %>
-  <p>Title<%= @book.title %></p>
-  <p>Body<%= @book.body %></p>
-  <p>投稿ユーザー画面：<%= image_tag @book.user.get_profile_image(100,100) %></p>
-  <p><%= image_tag 'sample-author1.jpg' %></p>
-  <p><%= @book.user.name %></p>
-  <%if @book.user == current_user %>
-    <%= link_to "destroy", books_path(@book), method: :delete %>
-  <% end %>
-</div>
+<h1>showページは投稿後に移動するページ</h1>
+<p>投稿した内容を編集・削除できる、投稿者の名前も出てくる</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Book detail</th>
+    </tr>
+</thead>
+<tbody>
+<% books.each do |book| %>
+  <tr>
+    <td><%= book.id %></td>
+    <td><%= book.title %></td>
+    <td><%= book.body %></td>
+    <td><%= link_to "Edit", books_edit_path %></td>
+    <td><%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "Are you sure ?" %></td>
+  </tr>
+<% end %>
+</tbody>
+</table>

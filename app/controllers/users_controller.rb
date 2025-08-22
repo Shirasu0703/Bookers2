@@ -2,7 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    @user = User.new
+    if @user = User.new
+      flash[:nitice] = "successfully"
+    else
+      flash.now[:alert] = "error"
   end
 
 
@@ -21,8 +24,10 @@ class UsersController < ApplicationController
 
   def update
    if @user.update(user_params)
+    flash[:notice] = "successfully"
     redirect_to user_path(@user)
    else
+    flash.now[:alert] = "error"
     render :edit
   end
 
@@ -31,5 +36,6 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :profile_image)
   end
+end
 end
 end
