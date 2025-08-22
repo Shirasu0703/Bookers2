@@ -1,0 +1,47 @@
+<% if user_signed_in? && !(controller_name == 'homes' && action_name == 'top') %>
+<nav class="sidebar rounded px-0 my-4">
+  <div class="position-sticky pt-3">
+
+    <div class="text-center p-3 mb-4 border rounded ">
+
+    <h2 class="text-dark p-3 mb-0">User info</h2>
+
+      <% if current_user.profile_image.attached? %>
+        <%= image_tag current_user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", size: "100x100", alt: "プロフィール画像" %>
+      <% end %>
+
+      <h5 class="mb-1"><%= current_user.name %></h5>
+
+      <p class="text-field"><%= current_user.introduction %></p>
+
+      <%= link_to "プロフィール設定", edit_user_registration_path, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+
+    <div class="p-3">
+      <% if @book.errors.any? %>
+        <ul class="alert alert-danger">
+          <h6 class="alert-heading">
+            <%= @book.errors.count %>error
+          </h6>
+          <% @book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <%= form_with model: @book do |f| %>
+        <h5 class="text-dark p-3 mb-0">New Book</h5>
+        <p>Title</p>
+        <%= f.text_field :title, class: "form-control mb-2", rows: 3 %>
+        <p>Opinion</p>
+        <%= f.text_area :body, class: "form-control mb-2", rows: 3 %>
+        <%= f.submit 'Create Book', class: "btn btn-info btn-block" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+
