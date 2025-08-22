@@ -15,6 +15,7 @@
         <% end %>
         <%= form_with model: @book do |f| %>
           <%= f.file_field :image, accept: "image/*", class: "w-100" %>
+          <% if user_signed_in? && !(controller_name == 'homes' && action_name == 'top') %>
           <div class="input-group mb-3 mt-4">
             <div class="input-group-prepend">
               <span class="input-group-text" aria-hidden="true"><i class="fas fa-building"></i></span>
@@ -24,6 +25,7 @@
           <%= f.text_area :body, class: "form-control", rows: "3", placeholder: "Opinion" %>
           <hr>
           <%= f.submit 'Create Book', class: "btn btn-lg btn-block btn-info mt-4" %>
+        <% end %>
         <% end %>
       </div>
     </div>
