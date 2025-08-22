@@ -14,10 +14,10 @@
 
   
   <body class="d-flex flex-column vh-100">
-    <header class="shadow-sm">
+    <header class="shadow-sm bg-dark">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-          <a class="navbar-brand p-4" href="/"><%= image_tag('logo.png') %></a>
+          <a class="navbar-brand p-4" href="/"><%= link_to 'Bookers', root_path, class: 'nav-link text-white' %></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,44 +28,45 @@
       <% if user_signed_in? %>
       <li class="nav-item">
         <li>
-          <%= link_to '投稿フォーム', new_book_path, class: 'nav-link text-white' %>
+          <%= link_to 'Home', user_path(current_user.id), class: 'nav-link text-white' %>
         </li>
+
         <li>
-          <%= link_to 'マイページ', user_path(current_user.id), class: 'nav-link text-white' %>
-        </li>
-        <li>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'nav-link text-white' %>
+          <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'nav-link text-white' %>
         </li>
       <% else %>
+      <li>
+        <%= link_to "Home", root_path, class: 'nav-link text-white' %>
+      </li>
+      <li>
+        <%= link_to "About", about_path, class: 'nav-link text-white' %>
+      </li>
         <li>
-          <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-white' %>
+          <%= link_to "Sign up", new_user_registration_path, class: 'nav-link text-white' %>
         </li>
         <li>
-          <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-white' %>
+          <%= link_to "Log in", new_user_session_path, class: 'nav-link text-white' %>
         </li>
       <% end %>
     </header>
-
-    <main class="mt-3 bg-white">
-      <div class="container-fluid">
-        <div class="row align-items-stretch">
-
-        <div class="col-2">
-          <div class="bg-success-subtle p-3 h-100"></div>
+    <main class="mb-auto">
+    <%= yield %>
+    </main>
+    <footer class="mt-5 py-3">
+    <div class="container text-center">
+        <p class="mb-0 ">CopyRight Infratop.inc</p>
         </div>
-
-        <footer class="mt-3 bg-info">
-        <div class="container-fluid py-3">
-          <div class="row row-cols-2 g-2 align-items-stretch" >
-    
-            <div class="col"><div class="p-3 bg-info-subtle" style="min-height:60px;"></div></div>
             </div>
+            </div>
+
+
+            </div>
+            </div>
+
           </div>
       </footer>
       </body>
     </html>
 
-
-    <%= yield %>
   </body>
 </html>
