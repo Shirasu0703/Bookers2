@@ -4,19 +4,30 @@
 
     <div class="text-center p-3 mb-4 border rounded ">
 
+
+    <% display_user = 
+    if defined?(@user) && @user.present? 
+      @user
+    elsif defined?(@book) && @book.present?
+      @book.user
+    else
+      current_user
+    end %>
+
+    <div class="text-center p-3 mb-4 border rounded">
+    <% display_user = @display_user || current_user %>
     <h2 class="text-dark p-3 mb-0">User info</h2>
 
-      <% if current_user.profile_image.attached? %>
-        <%= image_tag current_user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
+      <% if display_user&.profile_image&.attached? %>
+        <%= image_tag display_user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
       <% else %>
         <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", size: "100x100", alt: "プロフィール画像" %>
       <% end %>
 
-      <h5 class="mb-1"><%= current_user.name %></h5>
+        <p><strong>name</strong> <%= display_user.name %></p>
+        <p><strong>introduction</strong> <%= display_user.introduction %></p>
 
-      <p class="text-field"><%= current_user.introduction %></p>
-
-      <%= link_to "プロフィール設定", edit_user_path(current_user), class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to "プロフィール設定", edit_user_path(current_user), class: "btn btn-outline-primary btn-sm mb-2" %>
     </div>
 
     <div class="p-3">
@@ -41,6 +52,7 @@
       <% end %>
     </div>
   </div>
+</nav>
 <% end %>
 
 

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'homes/top'
   devise_for :users
 
-  get 'books/my_books/:user_id', to: 'books#my_books', as: 'my_books'
+  get 'my_books', to: 'books#my_books', as: 'my_books'
 
   resources :users, only: [:show, :index, :edit, :update, :create]
   
