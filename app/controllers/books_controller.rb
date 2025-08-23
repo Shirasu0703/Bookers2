@@ -33,13 +33,14 @@ class BooksController < ApplicationController
 
   def index
     @book = Book.new
-    @books = Book.page(params[:page])
+    @books = Book.all.includes(:user).order(created_at: :desc)
+    @user = current_user
   end
 
   def my_books
-    @books = @user.books.page(params[:page])
+    @display_user = current_user
     @book = Book.new
-    @user = User.find(params[:user_id])
+    @books =current_user.books
    end
 
 
@@ -62,6 +63,14 @@ class BooksController < ApplicationController
 
 
   private
+
+  def correct_user
+    @book = Book.find(params[:id])
+    unless @book.user == current_user
+      flash[:alert] = "You are not authorized to perform this action"
+      redirect_to my_books_path
+    end
+  end
 
   def new_book_params
   params.require(:book).permit(:title, :image, :body)

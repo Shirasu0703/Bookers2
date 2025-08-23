@@ -1,11 +1,11 @@
-<% if user_signed_in? && !(controller_name == 'homes' && action_name == 'top') %>
+<% if user_signed_in? && books.present? &&!(controller_name == 'homes' && action_name == 'top') %>
   <table class="table table-striped">
   <thead>
     <tr>
       <th></th>
       <th>Title</th>
       <th>Opinion</th>
-      <% if @show_page %>
+      <% if local_assigns[:show_page] %>
         <th></th>
         <th></th>
       <% end %>
@@ -15,21 +15,26 @@
     <% books.each do |book| %>
       <tr>
         <td>
-          <% if book.user.profile_image.attached? %>
+          <% if book.user&.profile_image&.attached? %>
             <%= image_tag book.user.profile_image.variant(resize_to_fill: [50,50]), class: "rounded-circle" %>
           <% else %>
-            <%= image_tag "default.png", size: "50x50", class: "rounded-circle" %>
+            <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle" %>
           <% end %>
-          <p><%= book.user.name if @show_page %></p>
+
+          <% if local_assigns[:show_page] %>
+            <p><%= link_to book.user.name, user_path(book.user), class: "text-decoration-none" %></p>
+          <% end %>
         </td>
         <td><%= link_to book.title, book_path(book) %></td>
+
         <td><%= book.body %></td>
-        <% if @show_page %>
+
+          <% if local_assigns[:show_page] && book.user == current_user %>
           <td>
             <%= link_to "Edit", edit_book_path(book), class: "btn btn-sm btn-primary" %>
             <%= link_to "Destroy", book_path(book), method: :delete, data: {confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
           </td>
-        <% end %>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
