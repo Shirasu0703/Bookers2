@@ -16,11 +16,11 @@
 
       <p class="text-field"><%= current_user.introduction %></p>
 
-      <%= link_to "プロフィール設定", edit_user_registration_path, class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to "プロフィール設定", edit_user_path(current_user), class: "btn btn-outline-primary btn-sm" %>
     </div>
 
     <div class="p-3">
-      <% if @book.errors.any? %>
+      <% if @book&.errors&.any? %>
         <ul class="alert alert-danger">
           <h6 class="alert-heading">
             <%= @book.errors.count %>error

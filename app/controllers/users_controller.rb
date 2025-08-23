@@ -2,10 +2,8 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def new
-    if @user = User.new
-      flash[:nitice] = "successfully"
-    else
-      flash.now[:alert] = "error"
+     @user = User.new
+      flash[:notice] = "successfully"
   end
 
 
@@ -16,27 +14,28 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def index
-    @users = User.all
+    @users = User.page(params[:page])
   end
 
   def update
+    @user = current_user
    if @user.update(user_params)
     flash[:notice] = "successfully"
-    redirect_to user_path(@user)
+    redirect_to my_books_path
    else
     flash.now[:alert] = "error"
     render :edit
   end
+end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :profile_image)
+    params.require(:user).permit(:name, :profile_image, :introduction)
   end
-end
-end
+
 end
