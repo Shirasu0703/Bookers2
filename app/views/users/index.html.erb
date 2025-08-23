@@ -1,2 +1,24 @@
-<h1>indexページはUsersのページにする</h1>
-<p>Bootstrapでレイアウト</p>
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th>image</th>
+    <th>name</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td>
+        <% if user.profile_image.attached? %>
+          <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle" %>
+        <% end %>
+      </td>
+      <td><%= user.name %></td>
+      <td><%= link_to "Show", my_books_path(user_id: user.id), class: "btn btn-primary" %></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
