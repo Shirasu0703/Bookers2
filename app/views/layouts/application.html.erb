@@ -52,24 +52,22 @@
 
         <% if user_signed_in? && !(controller_name == 'homes, edit' && action_name == 'top, edit') %>
 
-          <aside class="col-md-3 col-lg-2">
-            <%= render 'layouts/sidebar_form' %>
-          </aside>
+          
 
 
-          <main class="col-md-8 offset-md-1 col-lg-9 px-md-4">
+          
           <% flash.each do |message_type, message| %>
             <div class="flash-message <%= message_type %>"><%= message %></div>
           <% end %>
           <%= yield %>
-        </main>
+        
       <% else %>
-        <main class="col-12 px-md-4">
+       
         <% flash.each do |message_type, message| %>
           <div class="flash-message <%= message_type %>"><%= message %></div>
         <% end %>
         <%= yield %>
-      </main>
+
     <% end %>
 
       </div>
