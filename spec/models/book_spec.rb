@@ -23,7 +23,7 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
   feature "titleを空白で投稿した場合に画面にエラーメッセージが表示されているか" do
     before do
       visit books_path
-      fill_in 'book[title]', with: ''
+      fill_in 'book_title', with: ''
     end
     scenario "エラーメッセージは正しく表示されるか", spec_category: "バリデーションとメッセージ表示" do
       find("input[name='commit']").click
@@ -33,7 +33,7 @@ RSpec.describe Book, "モデルに関するテスト", type: :model do
   feature "bodyを空白で投稿した場合に画面にエラーメッセージが表示されているか" do
     before do
       visit books_path
-      fill_in 'book[body]', with: ''
+      fill_in 'book_body', with: ''
     end
     scenario "エラーメッセージは正しく表示されるか", spec_category: "バリデーションとメッセージ表示" do
       find("input[name='commit']").click
