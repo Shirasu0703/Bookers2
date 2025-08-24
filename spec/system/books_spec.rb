@@ -6,19 +6,52 @@ describe '投稿のテスト' do
     before do 
       visit root_path
     end
+
+
+
+
+    scenario 'titleが空白の場合にエラーメッセージが表示される' do
+      visit my_books_path
+      fill_in 'book[title]', with: ''
+      fill_in 'book[body]', with: 'テスト本文'
+      click_button 'Create Book'
+  
+      expect(page).to have_content "Title can't be blank"
+    end
+  
+    scenario 'bodyが空白の場合にエラーメッセージが表示される' do
+      visit my_books_path
+      fill_in 'book[title]', with: 'テストタイトル'
+      fill_in 'book[body]', with: ''
+      click_button 'Create Book'
+  
+      expect(page).to have_content "Body can't be blank"
+    end
+  end
+
+
+
+
     context '表示の確認' do
       it 'トップ画面(root_path)に一覧ページへのリンクが表示されているか', spec_category: "ルーティング・URL設定の理解" do
-        expect(page).to have_link "", href: books_path
+        expect(page).to have_link "Books", href: my_books_path
       end
       it 'root_pathが"/"であるか', spec_category: "ルーティング・URL設定の理解" do
         expect(current_path).to eq('/')
       end
     end
   end
+
   describe "一覧画面のテスト" do
     before do
       visit books_path
     end
+     
+    it 'トップ画面にBooksリンクがあるか' do
+      expect(page).to have_link "Books", href: my_books_path
+    end
+  end
+  
     context '一覧の表示とリンクの確認' do
       it "bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか", spec_category: "ビューページでの適切な遷移先設定" do
         expect(page).to have_selector 'table'

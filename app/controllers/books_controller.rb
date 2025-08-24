@@ -15,7 +15,8 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       redirect_to book_path(@book), notice: "Book was successfully updated."
     else
-      render:edit
+      render :edit
+    
     end
   end
 
@@ -26,8 +27,8 @@ class BooksController < ApplicationController
     if @book.save
       redirect_to book_path(@book), notice: "Book was successfully created."
     else
-      flash.now[:alert] = "error"
-      render :new
+      flash[:alert] = @book.errors.full_messages.join(", ")
+      redirect_to books_path
     end
   end
 

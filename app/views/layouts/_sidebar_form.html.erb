@@ -31,23 +31,28 @@
     </div>
 
     <div class="p-3">
-      <% if @book&.errors&.any? %>
-        <ul class="alert alert-danger">
-          <h6 class="alert-heading">
+      <% if local_assigns[:book] %>
+        <% if @book&.errors&.any? %>
+        <div class="alert alert-danger">
+          <h4 class="alert-heading">
             <%= @book.errors.count %>error
-          </h6>
-          <% @book.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
+          </h4>
+          <ul>
+            <% @book.errors.full_messages.each do |message| %>
+             <li><%= message %></li>
+            <% end %>
+          </ul>
+         </div>
+        <% end %>
       <% end %>
+    </div>
 
-      <%= form_with model: @book do |f| %>
+      <%= form_with model: @book, local: true do |f| %>
         <h5 class="text-dark p-3 mb-0">New Book</h5>
         <p>Title</p>
-        <%= f.text_field :title, class: "form-control mb-2", rows: 3 %>
+        <%= f.text_field :title, class: "form-control mb-2"%>
         <p>Opinion</p>
-        <%= f.text_area :body, class: "form-control mb-2", rows: 3 %>
+        <%= f.text_area :body, row: 3, class: "form-control mb-2"%>
         <%= f.submit 'Create Book', class: "btn btn-info btn-block" %>
       <% end %>
     </div>
