@@ -2,41 +2,38 @@ require 'rails_helper'
 
 describe '投稿のテスト' do
   let!(:book) { create(:book,title:'hoge',body:'body') }
+
   describe 'トップ画面(root_path)のテスト' do
     before do 
-      visit root_path
-    end
-
-
-
-
-    scenario 'titleが空白の場合にエラーメッセージが表示される' do
+      sign_in user
       visit my_books_path
-      fill_in 'book[title]', with: ''
-      fill_in 'book[body]', with: 'テスト本文'
-      click_button 'Create Book'
+  end
   
-      expect(page).to have_content "Title can't be blank"
-    end
+  scenario 'titleが空白の場合にエラーメッセージが表示される' do
+    visit my_books_path
+    save_and_open_page   
+    fill_in 'book[title]', with: ''
+    fill_in 'book[body]', with: 'test'
+    click_button 'Create Book'
   
-    scenario 'bodyが空白の場合にエラーメッセージが表示される' do
-      visit my_books_path
-      fill_in 'book[title]', with: 'テストタイトル'
-      fill_in 'book[body]', with: ''
-      click_button 'Create Book'
-  
-      expect(page).to have_content "Body can't be blank"
-    end
+    expect(page).to have_content "Title can't be blank"
   end
 
-
-
-
+  scenario 'bodyが空白の場合にエラーメッセージが表示される' do
+    visit my_books_path  
+    fill_in 'book[title]', with: 'book1'
+    fill_in 'book[body]', with: ''
+    click_button 'Create Book'
+  
+    expect(page).to have_content "Body can't be blank"
+  end
+  
     context '表示の確認' do
-      it 'トップ画面(root_path)に一覧ページへのリンクが表示されているか', spec_category: "ルーティング・URL設定の理解" do
+      it 'トップ画面(root_path)に一覧ページへのリンクが表示されているか' do
         expect(page).to have_link "Books", href: my_books_path
-      end
-      it 'root_pathが"/"であるか', spec_category: "ルーティング・URL設定の理解" do
+    end
+
+      it 'root_pathが"/"であるか' do
         expect(current_path).to eq('/')
       end
     end
@@ -45,20 +42,19 @@ describe '投稿のテスト' do
   describe "一覧画面のテスト" do
     before do
       visit books_path
-    end
+  end
      
     it 'トップ画面にBooksリンクがあるか' do
       expect(page).to have_link "Books", href: my_books_path
     end
-  end
   
     context '一覧の表示とリンクの確認' do
-      it "bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか", spec_category: "ビューページでの適切な遷移先設定" do
+      it "bookの一覧表示(tableタグ)と投稿フォームが同一画面に表示されているか" do
         expect(page).to have_selector 'table'
         expect(page).to have_field 'book[title]'
         expect(page).to have_field 'book[body]'
-      end
-      it "bookのタイトルと感想を表示し、詳細・編集・削除のリンクが表示されているか", spec_category: "ビューページでの適切な遷移先設定" do
+    end
+      it "bookのタイトルと感想を表示し、詳細・編集・削除のリンクが表示されているか" do
           (1..5).each do |i|
             Book.create(title:'hoge'+i.to_s,body:'body'+i.to_s)
           end
@@ -72,19 +68,21 @@ describe '投稿のテスト' do
             expect(show_link.native.inner_text).to match(/show/i)
             expect(show_link[:href]).to eq book_path(book)
             # Editリンク
-            show_link = find_all('a')[j+1]
-            expect(show_link.native.inner_text).to match(/edit/i)
-            expect(show_link[:href]).to eq edit_book_path(book)
+            edit_link = find_all('a')[j+1]
+            expect(edit_link.native.inner_text).to match(/edit/i)
+            expect(edit_link[:href]).to eq edit_book_path(book)
             # Destroyリンク
-            show_link = find_all('a')[j+2]
-            expect(show_link.native.inner_text).to match(/destroy/i)
-            expect(show_link[:href]).to eq book_path(book)
+            destroy_link = find_all('a')[j+2]
+            expect(destroy_link.native.inner_text).to match(/destroy/i)
+            expect(destroy_link[:href]).to eq book_path(book)
           end
       end
+
       it 'Create Bookボタンが表示される', spec_category: "ビューページでの適切な遷移先設定" do
         expect(page).to have_button 'Create Book'
       end
     end
+
     context '投稿処理に関するテスト' do
       it '投稿に成功しサクセスメッセージが表示されるか', spec_category: "CRUD機能に対するコントローラーの処理と流れ" do
         fill_in 'book[title]', with: Faker::Lorem.characters(number:5)
@@ -92,11 +90,13 @@ describe '投稿のテスト' do
         click_button 'Create Book'
         expect(page).to have_content 'successfully'
       end
+
       it '投稿に失敗する', spec_category: "CRUD機能に対するコントローラーの処理と流れ" do
         click_button 'Create Book'
         expect(page).to have_content 'error'
         expect(current_path).to eq('/books')
       end
+
       it '投稿後のリダイレクト先は正しいか', spec_category: "CRUD機能に対するコントローラーの処理と流れ" do
         fill_in 'book[title]', with: Faker::Lorem.characters(number:5)
         fill_in 'book[body]', with: Faker::Lorem.characters(number:20)
@@ -104,6 +104,7 @@ describe '投稿のテスト' do
         expect(page).to have_current_path book_path(Book.last)
       end
     end
+
     context 'book削除のテスト' do
       it 'application.html.erbにjavascript_pack_tagを含んでいるか', spec_category: "CRUD機能に対するコントローラーの処理と流れ" do
         is_exist = 0
@@ -116,6 +117,7 @@ describe '投稿のテスト' do
         end
         expect(is_exist).to eq(1)
       end
+
       it 'bookの削除', spec_category: "CRUD機能に対するコントローラーの処理と流れ" do
         before_delete_book = Book.count
         click_link 'Destroy', match: :first
