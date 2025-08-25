@@ -88,19 +88,11 @@
 
     <div class="container my-5">
 
-        <% if user_signed_in? && !(controller_name == 'homes, edit' && action_name == 'top, edit') %>
-          <% flash.each do |message_type, message| %>
-            <div class="flash-message <%= message_type %>"><%= message %></div>
-          <% end %>
- 
-        
-      <% else %>
        
         <% flash.each do |message_type, message| %>
           <div class="flash-message <%= message_type %>"><%= message %></div>
         <% end %>
         <%= yield %>
-    <% end %>
       </div>
 
     <footer class="mt-5 py-3">
