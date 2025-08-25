@@ -12,31 +12,31 @@ describe '[STEP1] ユーザログイン前のテスト' do
       end
       it 'Log inリンクが表示される: 青色のボタンの表示が「Log in」である', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
         log_in_link = find_all('a')[5].text
-        expect(log_in_link).to match(/Log in/)
+        expect(page).to have_link "Log in", href: user_session_path
       end
       it 'Log inリンクの内容が正しい', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
         log_in_link = find_all('a')[5].text
-        expect(page).to have_link log_in_link, href: new_user_session_path
+        expect(page).to have_link "Log in", href: new_user_session_path
       end
       it 'Sign upリンクが表示される: 緑色のボタンの表示が「Sign up」である', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
         sign_up_link = find_all('a')[6].text
-        expect(sign_up_link).to match(/Sign up/)
+        expect(page).to have_link "Sign up", href: new_user_registration_path
       end
       it 'Sign upリンクの内容が正しい', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
         sign_up_link = find_all('a')[6].text
-        expect(page).to have_link sign_up_link, href: new_user_registration_path
+        expect(page).to have_link "Sign up", href: new_user_registration_path
       end
     end
   end
 
   describe 'アバウト画面のテスト' do
     before do
-      visit '/home/about'
+      visit '/homes/about'
     end
 
     context '表示内容の確認' do
       it 'URLが正しい', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
-        expect(current_path).to eq '/home/about'
+        expect(current_path).to eq '/homes/about'
       end
     end
   end
@@ -90,7 +90,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
         about_link = find_all('a')[2].text
         about_link = about_link.gsub(/\n/, '').gsub(/\A\s*/, '').gsub(/\s*\Z/, '')
         click_link about_link
-        is_expected.to eq '/home/about'
+        is_expected.to eq '/homes/about'
       end
       it 'Sign upを押すと、新規登録画面に遷移する', spec_category: "ルーティング・URL設定の理解(ログイン状況に合わせた応用)" do
         signup_link = find_all('a')[3].text
@@ -139,9 +139,10 @@ describe '[STEP1] ユーザログイン前のテスト' do
     context '新規登録成功のテスト' do
       before do
         fill_in 'user[name]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'user[email]', with: Faker::Internet.email
+        fill_in 'user[email]', with: Faker::Internet.unque.email
         fill_in 'user[password]', with: 'password'
         fill_in 'user[password_confirmation]', with: 'password'
+        fill_in 'user[introduction]', with: Faker::Lorem.characters(number: 10)
       end
 
       it '正しく新規登録される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
