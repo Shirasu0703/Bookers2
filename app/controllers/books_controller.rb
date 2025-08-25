@@ -23,32 +23,29 @@ class BooksController < ApplicationController
 
   def create
     @book = current_user.books.new(book_params)
-    @book.user_id = current_user.id
     if @book.save
-      redirect_to book_path(@book), notice: "Book was successfully created."
+      flash[:notice] = "Book was successfully created."
+      redirect_to book_path(@book)
     else
-      flash[:alert] = @book.errors.full_messages.join(", ")
-      redirect_to books_path
+      flash.now[:alert] = @book.errors.full_messages.join(", ")
+      @user = current_user
+      @books = @user.books
+      render 'users/show'
     end
   end
 
   def index
-    @book = Book.new
+
     @books = Book.all.includes(:user).order(created_at: :desc)
     @user = current_user
   end
 
-  def my_books
-    @display_user = current_user
-    @book = Book.new
-    @books =current_user.books
-   end
 
 
 
   def show
-    @book = Book.new
-    @book_show = Book.find(params[:id])
+    @book = Book.find(params[:id])
+    @user = @book.user
     @books = [@book]
     @show_page = true
   end
@@ -57,8 +54,9 @@ class BooksController < ApplicationController
     book = Book.find(params[:id])
    if book.destroy
     flash[:notice] = "successfully"
-    redirect_to my_books_path
+    redirect_to user_path(current_user)
    end
+
 
   end
 

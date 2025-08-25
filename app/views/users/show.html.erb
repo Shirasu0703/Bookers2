@@ -2,12 +2,17 @@
   <div class="row">
 
     <div class="col-md-3 col-lg-2">
-      <%= render 'layouts/sidebar_form' %>
+      <%= render 'layouts/sidebar_form', book: @book %>
     </div>
 
     <div class="col-md-8 offset-md-1 col-lg-9 px-md-4">
       <h2>Book detail</h2>
-      <%= render partial: "books/book_table", locals: { books: @books, show_page: true } %>
+
+      <% if @books.present? %>
+        <%= render "books/book_table", books: @books, show_page: true %>
+      <% else %>
+        <p>No books found.</p>
+      <% end %>
 
     </div>
   </div>

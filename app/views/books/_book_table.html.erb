@@ -12,7 +12,8 @@
     </tr>
   </thead>
   <tbody>
-    <% books.each do |book| %>
+    <% books.compact.each do |book| %>
+      <% next if book.id.nil? %>
       <tr>
         <td>
           <% if book.user&.profile_image&.attached? %>
@@ -20,21 +21,19 @@
           <% else %>
             <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle" %>
           <% end %>
-
-          <% if local_assigns[:show_page] %>
-            <p><%= link_to book.user.name, user_path(book.user), class: "text-decoration-none" %></p>
-          <% end %>
         </td>
-        <td><%= link_to book.title, book_path(book) %></td>
+          <td><%= link_to book.user.name, user_path(book.user), class: "text-decoration-none" %></td>
+          <td><%= link_to book.title, book_path(book) %></td>
+          <td><%= book.body %></td>
+        </td>
 
-        <td><%= book.body %></td>
-
-          <% if local_assigns[:show_page] && book.user == current_user %>
+        <% if local_assigns[:show_page] && book.user == current_user %>
           <td>
             <%= link_to "Edit", edit_book_path(book), class: "btn btn-sm btn-primary" %>
             <%= link_to "Destroy", book_path(book), method: :delete, data: {confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
           </td>
-          <% end %>
+        <% end %>
+        
       </tr>
     <% end %>
   </tbody>

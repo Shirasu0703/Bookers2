@@ -138,19 +138,25 @@ describe '[STEP1] ユーザログイン前のテスト' do
 
     context '新規登録成功のテスト' do
       before do
+        visit new_user_registration_path
+
         fill_in 'user[name]', with: Faker::Lorem.characters(number: 10)
-        fill_in 'user[email]', with: Faker::Internet.unque.email
+        fill_in 'user[email]', with: Faker::Internet.unique.email
         fill_in 'user[password]', with: 'password'
         fill_in 'user[password_confirmation]', with: 'password'
-        fill_in 'user[introduction]', with: Faker::Lorem.characters(number: 10)
       end
 
       it '正しく新規登録される', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
-        expect { click_button 'Sign up' }.to change(User.all, :count).by(1)
+        expect { click_button 'Sign up' }.to change(User, :count).by(1)
       end
       it '新規登録後のリダイレクト先が、新規登録できたユーザの詳細画面になっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
         click_button 'Sign up'
-        expect(current_path).to eq '/users/' + User.last.id.to_s
+        expect(page).to have_content('Welcome! You have signed up successfully.')
+        user = User.last
+        expect(user).not_to be_nil
+
+        expect(page).to have_current_path(user_path(user))
+
       end
     end
   end
@@ -257,7 +263,7 @@ describe '[STEP1] ユーザログイン前のテスト' do
 
     context 'ログアウト機能のテスト' do
       it '正しくログアウトできている: ログアウト後のリダイレクト先においてAbout画面へのリンクが存在する', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
-        expect(page).to have_link '', href: '/home/about'
+        expect(page).to have_link '', href: '/homes/about'
       end
       it 'ログアウト後のリダイレクト先が、トップになっている', spec_category: "CRUD機能に対するコントローラの処理と流れ(ログイン状況を意識した応用)" do
         expect(current_path).to eq '/'
