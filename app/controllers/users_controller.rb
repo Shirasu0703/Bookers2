@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
    else
     flash.now[:alert] = "error"
-    render :edit
+    render :edit, status: :unprocessable_entity
   end
 end
 

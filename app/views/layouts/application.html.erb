@@ -87,13 +87,17 @@
     </header>
 
     <div class="container my-5">
+  <% flash.each do |message_type, message| %>
+    <div class="flash-message <%= message_type %>"><%= message %></div>
+  <% end %>
 
-       
+     <div class="container my-5">
         <% flash.each do |message_type, message| %>
           <div class="flash-message <%= message_type %>"><%= message %></div>
         <% end %>
         <%= yield %>
       </div>
+
 
     <footer class="mt-5 py-3">
       <div class="container text-center">

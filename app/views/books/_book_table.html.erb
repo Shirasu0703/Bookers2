@@ -15,23 +15,25 @@
     <% books.compact.each do |book| %>
       <% next if book.id.nil? %>
       <tr>
-        <td>
-          <% if book.user&.profile_image&.attached? %>
-            <%= image_tag book.user.profile_image.variant(resize_to_fill: [50,50]), class: "rounded-circle" %>
-          <% else %>
-            <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle" %>
-          <% end %>
-        </td>
-          <td><%= link_to book.user.name, user_path(book.user), class: "text-decoration-none" %></td>
-          <td><%= link_to book.title, book_path(book) %></td>
-          <td><%= book.body %></td>
-        </td>
+        <td class="text-center">
+        <% if book.user&.profile_image&.attached? %>
+          <%= image_tag book.user.profile_image.variant(resize_to_fill: [50,50]), class: "rounded-circle mb-1" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", size: "50x50", class: "rounded-circle mv-1" %>
+        <% end %>
+        <div>
+          <%= link_to book.user.name, user_path(book.user), class: "text-decoration-none" %>
+        </div>
+      </td>
+
+        <td><%= link_to book.title, book_path(book) %></td>
+        <td><%= book.body %></td>
 
         <% if local_assigns[:show_page] && book.user == current_user %>
-          <td>
-            <%= link_to "Edit", edit_book_path(book), class: "btn btn-sm btn-primary" %>
-            <%= link_to "Destroy", book_path(book), method: :delete, data: {confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
-          </td>
+        <td>
+          <%= link_to "Edit", edit_book_path(book), class: "btn btn-sm btn-primary" %>
+          <%= link_to "Destroy", book_path(book), method: :delete, data: {confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+        </td>
         <% end %>
         
       </tr>
