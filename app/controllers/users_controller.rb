@@ -13,15 +13,19 @@ class UsersController < ApplicationController
   end
 
   def edit
+
     @display_user = current_user
     @user = current_user
   end
 
   def index
     @users = User.page(params[:page])
+    @books = Book.all
+    @book = Book.new
   end
 
   def update
+
     @user = current_user
    if @user.update(user_params)
     flash[:notice] = "successfully"
@@ -37,5 +41,9 @@ end
   def user_params
     params.require(:user).permit(:name, :profile_image, :introduction)
   end
+
+  
+
+
 
 end
