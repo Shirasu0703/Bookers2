@@ -38,6 +38,7 @@ class BooksController < ApplicationController
     @book = Book.new
     @books = Book.all.includes(:user).order(created_at: :desc)
     @user = current_user
+    
   end
 
 
@@ -51,10 +52,9 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Book.find(params[:id])
-   if book.destroy
-    flash[:notice] = "successfully"
-    redirect_to user_path(current_user)
+    @book = Book.find(params[:id])
+    @book.destroy
+    redirect_to books_path, notice: "Sucessfully Destroy "
    end
 
 
@@ -79,4 +79,3 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title, :body)
   end
-end

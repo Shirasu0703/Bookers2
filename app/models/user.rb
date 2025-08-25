@@ -8,8 +8,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 2, maximum: 20 }
+  validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 2, maximum: 20 }, on: :create
+  validates :name, presence: true, length: { minimum: 2, maximum: 20 }, on: :update
   validates :introduction, length: { maximum: 50 }, allow_blank: true
+
 
 
   has_one_attached :profile_image
