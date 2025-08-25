@@ -35,7 +35,7 @@ class BooksController < ApplicationController
   end
 
   def index
-
+    @book = Book.new
     @books = Book.all.includes(:user).order(created_at: :desc)
     @user = current_user
   end
