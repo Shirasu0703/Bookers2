@@ -9,7 +9,7 @@ class User < ApplicationRecord
          authentication_keys: [:name]
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { minimum: 2, maximum: 20 }
-  validates :introduction, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
+  validates :introduction, length: { maximum: 50 }, allow_blank: true
 
 
   has_one_attached :profile_image

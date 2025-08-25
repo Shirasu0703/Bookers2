@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     flash[:notice] = "successfully"
-    stored_location_for(resource) || my_books_path
+    user_path(resource)
   end
 
   def after_sign_out_path_for(resource)
