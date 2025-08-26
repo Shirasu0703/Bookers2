@@ -1,3 +1,16 @@
+   <% if @book.errors.any? %>
+      <div class="alert alert-danger">
+        <h4 class="alert alert-danger">
+          <%= @book.errors.count %> error
+        </h4>
+        <ul>
+          <% @book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
 
 
 
