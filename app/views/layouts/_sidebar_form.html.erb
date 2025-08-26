@@ -31,7 +31,7 @@
       <p><strong>name</strong> <%= user.name %></p>
       <p><strong>introduction</strong> <%= user.introduction %></p>
 
-      <%= link_to edit_user_path(current_user), class: "btn btn-praimary btn-lg" do %>
+      <%= link_to edit_user_path(user), class: "btn btn-praimary btn-lg" do %>
         <i class="fas fa-user-cog"></i>
       <% end %>
 
@@ -45,6 +45,18 @@
         <%= f.text_area :body, rows: 3, class: "form-control mb-2"%>
         <%= f.submit 'Create Book', class: "btn btn-info btn-block" %>
       <% end %>
+
+
+      <% if @user == current_user %>
+        <%= link_to edit_user_path(current_user) do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+      <% else %>
+        <%= link_to edit_user_path(@user) do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+      <% end %>
+
     </div>
   </div>
 </nav>
