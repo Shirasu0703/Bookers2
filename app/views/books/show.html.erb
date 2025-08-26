@@ -2,13 +2,40 @@
   <div class="row">
 
     <div class="col-md-3 col-lg-2">
-      <%= render 'layouts/sidebar_form', book: Book.new %>
+      <%= render 'layouts/sidebar_form', book: Book.new, user: @book.user %>
     </div>
 
     <div class="col-md-8 offset-md-1 col-lg-9 px-md-4">
       <h2>Book detail</h2>
-      <%= render partial: "book_table", locals: { books: [@book_show], show_page: true } %>
-
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td class="text-center">
+              <%= image_tag @book.user.get_profile_image(50,50), class: "rounded-circle mb-1" %>
+              <div>
+                <%= link_to @book.user.name, user_path(@book.user), class: "text-decoration-none" %>
+              </div>
+            </td>
+            <td><%= link_to @book.title, book_path(@book) %></td>
+            <td><%= @book.body %></td>
+            <td>
+              <%= link_to "Edit", edit_book_path(@book), class: "btn btn-sm btn-primary" %>
+            </td>
+            <td>
+              <%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </div>
@@ -16,3 +43,6 @@
 
 
 
+<% if local_assigns[:show_page] && book.user == current_user %>
+
+<% end %>

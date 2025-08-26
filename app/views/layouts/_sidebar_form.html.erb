@@ -1,51 +1,43 @@
-<% display_user = 
-if defined?(@user) && @user.present? 
-  @user
-elsif defined?(@book) && @book.present?
-  @book.user
-else
-  current_user
-end %>
+
+<div class="p-3">
+  <% if local_assigns[:book] %>
+    <% if book&.errors&.any? %>
+      <div class="alert alert-danger">
+        <h4 class="alert-heading">
+          <%= book.errors.count %> error
+        </h4>
+        <ul>
+          <% book.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 
 <nav class="sidebar rounded px-0 my-4">
   <div class="position-sticky pt-3">
     <div class="text-center p-3 mb-4 border rounded ">
 
-    <h2 class="text-dark p-3 mb-0">User info</h2>
+      <h2 class="text-dark p-3 mb-0">User info</h2>
 	
-	
-      <% if display_user&.profile_image&.attached? %>
-        <%= image_tag display_user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
+      <% if user.profile_image.attached? %>
+        <%= image_tag user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
       <% else %>
         <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", size: "100x100", alt: "プロフィール画像" %>
       <% end %>
 
-        <p><strong>name</strong> <%= display_user.name %></p>
-        <p><strong>introduction</strong> <%= display_user.introduction %></p>
+      <p><strong>name</strong> <%= user.name %></p>
+      <p><strong>introduction</strong> <%= user.introduction %></p>
 
-        <%= link_to edit_user_path(current_user), class: "btn btn-praimary btn-lg" do %>
-           <i class="fas fa-user-cog"></i>
-        <% end %>
-       </div>
-
-    <div class="p-3">
-      <% if local_assigns[:book] %>
-        <% if @book&.errors&.any? %>
-        <div class="alert alert-danger">
-          <h4 class="alert-heading">
-            <%= @book.errors.count %>error
-          </h4>
-          <ul>
-            <% @book.errors.full_messages.each do |message| %>
-             <li><%= message %></li>
-            <% end %>
-          </ul>
-         </div>
-        <% end %>
+      <%= link_to edit_user_path(current_user), class: "btn btn-praimary btn-lg" do %>
+        <i class="fas fa-user-cog"></i>
       <% end %>
-    </div>
 
-      <%= form_with model: @book, local: true do |f| %>
+
+
+      <%= form_with model: book, local: true do |f| %>
         <h5 class="text-dark p-3 mb-0">New book</h5>
         <p>Title</p>
         <%= f.text_field :title, class: "form-control mb-2"%>
