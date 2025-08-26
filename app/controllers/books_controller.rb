@@ -1,4 +1,13 @@
 class BooksController < ApplicationController
+  before_action :ensure_correct_user, only: [:edit, :update]
+
+  def ensure_correct_user
+    book = Book.find(params[:id])
+    unless book.user == current_user
+      redirect_to books_path
+    end
+  end
+  
   def top
   end
 
@@ -16,10 +25,8 @@ class BooksController < ApplicationController
       redirect_to book_path(@book), notice: "Book was successfully updated."
     else
       render :edit
-    
     end
   end
-
 
   def create
     @book = current_user.books.new(book_params)
@@ -54,7 +61,7 @@ class BooksController < ApplicationController
    end
 
 
-  end
+end
 
 
 
@@ -64,7 +71,7 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     unless @book.user == current_user
       flash[:alert] = "You are not authorized to perform this action"
-      redirect_to my_books_path
+      redirect_to books_path
     end
   end
 
