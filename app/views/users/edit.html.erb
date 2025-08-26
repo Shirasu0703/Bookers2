@@ -1,10 +1,21 @@
 <h2>User info</h2>
 
 <%= form_with model: @user, local: true do |f| %>
+
+  <% if @user.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"><%= @user.errors.count %> error(s) prohibited this user form being saved:</h4>
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <p>Name</p>
   <%= f.text_field :name %>
   <p>Image</p>
-
   <%= f.file_field :profile_image %>
   <p>Introduction</p>
   <%= f.text_area :introduction %>
