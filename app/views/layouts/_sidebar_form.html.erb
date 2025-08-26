@@ -1,22 +1,19 @@
+<% display_user = 
+if defined?(@user) && @user.present? 
+  @user
+elsif defined?(@book) && @book.present?
+  @book.user
+else
+  current_user
+end %>
+
 <nav class="sidebar rounded px-0 my-4">
   <div class="position-sticky pt-3">
-
     <div class="text-center p-3 mb-4 border rounded ">
 
-
-    <% display_user = 
-    if defined?(@user) && @user.present? 
-      @user
-    elsif defined?(@book) && @book.present?
-      @book.user
-    else
-      current_user
-    end %>
-
-    <div class="text-center p-3 mb-4 border rounded">
-    <% display_user = @display_user || current_user %>
     <h2 class="text-dark p-3 mb-0">User info</h2>
-
+	
+	
       <% if display_user&.profile_image&.attached? %>
         <%= image_tag display_user.profile_image.variant(resize_to_fill: [100, 100]), class: "rounded-circle mb-3", alt: "プロフィール画像" %>
       <% else %>
@@ -27,9 +24,9 @@
         <p><strong>introduction</strong> <%= display_user.introduction %></p>
 
         <%= link_to edit_user_path(current_user), class: "btn btn-praimary btn-lg" do %>
-         <i class="fas fa-user-cog"></i>
+           <i class="fas fa-user-cog"></i>
         <% end %>
-    </div>
+       </div>
 
     <div class="p-3">
       <% if local_assigns[:book] %>
