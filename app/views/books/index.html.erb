@@ -14,6 +14,7 @@
             <th>Opinion</th>
           </tr>
         </thead>
+        
         <tbody>
           <% @books.compact.each do |book| %>
             <% next if book.id.nil? %>
